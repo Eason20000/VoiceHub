@@ -1131,7 +1131,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
   Globe,
   ImageIcon,
@@ -1565,6 +1565,11 @@ watch(
 )
 
 const originalData = ref({})
+
+// 离开页面时撤销未保存的强调色预览
+onBeforeUnmount(() => {
+  applyAccentColor(originalData.value.accentColor || null)
+})
 
 // 当前限额类型和值的快捷访问
 const activeLimitTab = ref('daily')
